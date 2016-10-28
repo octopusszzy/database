@@ -47,6 +47,28 @@ try:
 		labels_en_language varchar(10),\
 		primary key (id))')
 
+	cur.execute('create table if not exists snaks(\
+		datatype varchar(20),\
+		datavalue_type varchar(20),\
+		datavalue_value varchar(300),\
+		property varchar(20) not null,\
+		snaktype varchar(20),\
+		primary key (property))')
+
+	cur.execute('create table if not exists reference(\
+		referencing_id varchar(20),\
+		referenced_id varchar(20),\
+		type varchar(20),\
+		primary key (referencing_id,referenced_id))')
+
+	cur.execute('create table if not exists claims(\
+		primary_id varchar(20),\
+		property varchar(20),\
+		type varchar(20),\
+		id varchar(100),\
+		rank varchar(20),\
+		primary key (id,property))')
+
 	cur.close()
 	conn.close()
 except MySQLdb.Error,e:
