@@ -222,17 +222,19 @@ def read_claims(path,debug=False,stop=0):
 						claim_id = i['id']
 						claim_type = i['type']
 						claim_rank = i['rank']
-						cur.execute('replace into claims values(%s,%s,%s,%s,%s)', [id,k,claim_type,claim_id,claim_rank])
 						add_a_snak(cur,i['mainsnak'])
+						references_property = None
+						qualifiers_property = None
 						if (i.get('references',None)!=None):
 							for sub_obj in i['references']:
 								for (kk,vv) in sub_obj['snaks'].items():
-									cur.execute('replace into reference values(%s,%s,%s)', [k,kk.encode('utf-8'),'references'])
+									references_property = kk
 									add_a_snak(cur,vv[0])
 						if (i.get('qualifiers',None)!=None):
 							for (kk,vv) in i['qualifiers'].items():
-								cur.execute('replace into reference values(%s,%s,%s)', [k,kk.encode('utf-8'),'qualifiers'])
+								qualifiers_property = kk
 								add_a_snak(cur,vv[0])
+						cur.execute('replace into claims values(%s,%s,%s,%s,%s,%s,%s)', [id,k,qualifiers_property,references_property,claim_type,claim_id,claim_rank])
 			except Exception, e:
 				if(cnt==1):
 					continue

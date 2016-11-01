@@ -64,6 +64,8 @@ try:
 	cur.execute('create table if not exists claims(\
 		primary_id varchar(20),\
 		property varchar(20),\
+		qualifier_property varchar(20),\
+		references_property varchar(20),\
 		type varchar(20),\
 		id varchar(100),\
 		rank varchar(20),\
